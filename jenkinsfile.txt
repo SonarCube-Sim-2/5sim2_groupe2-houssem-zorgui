@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Cloner le dépôt Git et utiliser la branche "main"
+                git branch: 'main', url: 'https://github.com/SonarCube-Sim-2/5sim2_groupe2-houssem-zorgui.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Commande Maven pour construire le projet
+                sh 'mvn clean install'
+            }
+        }
+    }
+}
