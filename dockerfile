@@ -1,5 +1,5 @@
-# Étape 1: Utilisation de l'image Maven officielle
-FROM maven:3.8.6-openjdk-11-slim AS builder
+# Étape 1: Utilisation de l'image Maven officielle avec Java 17
+FROM maven:3.8.6-openjdk-17-slim AS builder
 
 # Étape 2: Définir le répertoire de travail
 WORKDIR /app
@@ -8,14 +8,11 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Étape de débogage pour vérifier les fichiers
-RUN ls -la /app && cat pom.xml
-
 # Étape 4: Construire l'application avec Maven
 RUN mvn clean install -DskipTests
 
-# Étape 5: Créer l'image finale en utilisant OpenJDK
-FROM openjdk:11-jre-slim
+# Étape 5: Créer l'image finale en utilisant OpenJDK 17
+FROM openjdk:17-jre-slim
 
 # Étape 6: Définir le répertoire de travail
 WORKDIR /app
