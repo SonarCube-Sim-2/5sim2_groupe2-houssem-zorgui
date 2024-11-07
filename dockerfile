@@ -8,10 +8,13 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
+# Étape de débogage pour vérifier les fichiers
+RUN ls -la /app && cat pom.xml
+
 # Étape 4: Construire l'application avec Maven
 RUN mvn clean install -DskipTests
 
-# Étape 5: Créer l'image finale en utilisant OpenJDK (optionnel selon ton besoin)
+# Étape 5: Créer l'image finale en utilisant OpenJDK
 FROM openjdk:11-jre-slim
 
 # Étape 6: Définir le répertoire de travail
@@ -20,7 +23,7 @@ WORKDIR /app
 # Étape 7: Copier l'artefact généré par Maven depuis l'étape précédente
 COPY --from=builder /app/target/*.jar app.jar
 
-# Étape 8: Exposer le port de l'application (facultatif, selon ton application)
+# Étape 8: Exposer le port de l'application
 EXPOSE 8080
 
 # Étape 9: Lancer l'application Java
